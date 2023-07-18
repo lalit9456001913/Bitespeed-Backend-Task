@@ -6,7 +6,6 @@ const server = require('http').createServer(app);
 const userDAOHandler = require('./userDaoHandler');
 const helpers = require('./Helpers');
 const { Contact } = require('./models');
-// const generateResponse = require('./generateResponse');
 
 // Middleware for parsing JSON request body
 app.use(express.json());
