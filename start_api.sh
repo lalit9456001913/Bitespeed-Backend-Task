@@ -1,3 +1,6 @@
+echo 'install all dependencies'
+npm install
+
 echo 'creating db....'
 ./create-db.sh
 
