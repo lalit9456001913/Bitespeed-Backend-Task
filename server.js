@@ -1,13 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const server = require('http').createServer(app);
 const userDAOHandler = require('./userDaoHandler');
 const { Contact } = require('./models');
-
+const ApiError = require('./ApiError');
 // Middleware for parsing JSON request body
 app.use(express.json());
+
+app.use((req, res, next) => {
+    const err = new ApiError(404, 'Not Found', 'Resource Not Found!');
+    next(err);
+});
 
 
 app.get('/health', (req, res) => {
@@ -167,11 +172,6 @@ app.post('/identify', async (req, res) => {
 });
 
 
-
-app.use((req, res, next) => {
-    const err = new ApiError(404, 'Not Found', 'Resource Not Found!');
-    next(err);
-});
 
 server.listen(port, () => {
     console.log(`Express server listening on port ${port}`);
