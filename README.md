@@ -1,6 +1,6 @@
 # Bitespeed-Backend-Task
 
-instruction to start the project
+# instruction to start the project
 
 to create db
 ./create-db.sh
@@ -19,3 +19,6 @@ if you want drop db
 ./drop-db.sh
 
 
+# alternate you can server using run command on root folder of project
+
+./start_api.sh
