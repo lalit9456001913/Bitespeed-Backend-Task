@@ -15,7 +15,7 @@ app.use(express.json());
 
 // health check api
 
-app.get('/health', (req, res) => {
+app.get('/', (req, res) => {
     res.json({ status: 'ok' });
 });
 
