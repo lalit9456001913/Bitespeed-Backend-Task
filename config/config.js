@@ -1,5 +1,4 @@
 require('dotenv').config()
-console.log("user=======", process.env.USER_NAME)
 module.exports = {
     username: process.env.USER_NAME,
     password: process.env.PASSWORD,

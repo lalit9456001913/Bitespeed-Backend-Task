@@ -16,7 +16,6 @@ app.use(express.json());
 // health check api
 
 app.get('/health', (req, res) => {
-    console.log("========")
     res.json({ status: 'ok' });
 });
 
@@ -173,10 +172,10 @@ app.post('/identify', async (req, res) => {
 });
 
 
-// app.use((req, res, next) => {
-//     const err = new ApiError(404, 'Not Found', 'Resource Not Found!');
-//     next(err);
-// });
+app.use((req, res, next) => {
+    const err = new ApiError(404, 'Not Found', 'Resource Not Found!');
+    next(err);
+});
 
 server.listen(port, () => {
     console.log(`Express server listening on port ${port}`);
