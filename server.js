@@ -3,17 +3,17 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const server = require('http').createServer(app);
-const userDAOHandler = require('./userDaoHandler');
 const { Contact } = require('./models');
 const ApiError = require('./ApiError');
 // Middleware for parsing JSON request body
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
 app.use(express.json());
 
-app.use((req, res, next) => {
-    const err = new ApiError(404, 'Not Found', 'Resource Not Found!');
-    next(err);
-});
 
+// health check api
 
 app.get('/health', (req, res) => {
     res.json({ status: 'ok' });
@@ -25,7 +25,6 @@ const { Op } = require('sequelize');
 
 app.post('/identify', async (req, res) => {
     const { email, phoneNumber } = req.body;
-
     try {
 
         const primaryAccounts = await Contact.findAll({
@@ -75,7 +74,7 @@ app.post('/identify', async (req, res) => {
                     },
                 )
             }
-            const response = await userDAOHandler.insertRecord({
+            const response = await Contact.create({
                 email,
                 phoneNumber,
                 linkPrecedence: "primary"
@@ -131,9 +130,9 @@ app.post('/identify', async (req, res) => {
 
             if (!secondaryContacts) {
                 if (!isEmailPrimary || !isPhonePrimary) {
-                    if (phoneNumber !== null) {
+                    if (phoneNumber !== null && email != null) {
                         //create secondary account for this primary account
-                        await userDAOHandler.insertRecord({
+                        await Contact.create({
                             email,
                             phoneNumber,
                             linkedId: primaryContact.id,
@@ -172,6 +171,10 @@ app.post('/identify', async (req, res) => {
 });
 
 
+app.use((req, res, next) => {
+    const err = new ApiError(404, 'Not Found', 'Resource Not Found!');
+    next(err);
+});
 
 server.listen(port, () => {
     console.log(`Express server listening on port ${port}`);
