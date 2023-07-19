@@ -9,7 +9,7 @@ const env = process.env.NODE_ENV || 'development';
 const db = {};
 
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.USERNAME, process.env.PASSWORD, { host: process.env.HOSTNAME, dialect: 'postgres' });
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.USER_NAME, process.env.PASSWORD, { host: process.env.HOSTNAME, dialect: 'postgres' });
 
 
 fs
